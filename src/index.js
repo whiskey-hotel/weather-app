@@ -1,5 +1,11 @@
 import './main.css';
-import './modules/elementBuilder';
+import * as elementBuilder from './modules/elementBuilder';
+import {
+  unitSelector,
+  currentWeather,
+  dailyForecast,
+  weatherDetails,
+} from './modules/dOMcontroller';
 /* You should be able to:
   1: search for a specific location.
     Use HERE Geocoder Autocomplete API for predicting location query.
@@ -11,3 +17,18 @@ import './modules/elementBuilder';
       weather-related gifs and display them).
   4: add a ‘loading’ component that displays from the time the
      form is submitted until the information comes back from the API. */
+
+const main = elementBuilder.newElement({
+  element: 'div',
+  elementID: 'container',
+});
+
+const unitSelectorObj = unitSelector();
+const currentWeatherObj = currentWeather();
+const dailyForecastObj = dailyForecast();
+const weatherDetailsObj = weatherDetails();
+
+const model = { unitSelectorObj, currentWeatherObj, dailyForecastObj, weatherDetailsObj };
+
+elementBuilder.moduleRender(model, main);
+elementBuilder.sendToBody(main);
