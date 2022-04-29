@@ -1,0 +1,78 @@
+HTML {
+  background-color: rgba(14, 15, 16);
+  color: white;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#currentWeatherContainer,
+#dailyForecastContainer {
+  display: flex;
+  justify-content: center;
+}
+
+#currentWeatherContainer {
+  width: 60%;
+  box-shadow: rgba(106, 98, 90, 0.2) 0px 8px 24px;
+  margin: 3em 0;
+}
+
+#weatherDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+}
+
+#currentWeatherContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#currentWeatherIconContainer {
+  border: solid white 1px;
+  width: 6em;
+  height: 6em;
+}
+
+#currentWeatherTemp {
+  font-size: 2em;
+  font-weight: 300;
+}
+
+#dailyForecastContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dayContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(106, 98, 90, 0.2) 0px 8px 24px;
+  width: 10em;
+  height: 10em;
+}
+
+.iconContainer {
+  border: solid white 1px;
+  width: 3em;
+  height: 3em;
+}
+
+.dayHiLoContainer {
+  display: flex;
+}
+
+.forecastHiContainer,
+.forecastLowContainer {
+  /* border: solid white 1px; */
+  margin: 1em;
+}

@@ -12,7 +12,6 @@ function currentWeather() {
   const currentWeatherContainer = elementBuilder.newElement({
     element: 'div',
     elementID: 'currentWeatherContainer',
-    text: 'Success',
   });
 
   const currentWeatherIconContainer = elementBuilder.newElement({
@@ -29,11 +28,13 @@ function currentWeather() {
   const currentWeatherDescription = elementBuilder.newElement({
     element: 'div',
     elementID: 'currentWeatherDescription',
+    text: 'Occaecat tempor proident dolore',
   });
 
   const currentWeatherTemp = elementBuilder.newElement({
     element: 'div',
     elementID: 'currentWeatherTemp',
+    text: '75°F',
   });
 
   const currentWeatherHiContainer = elementBuilder.newElement({
@@ -41,9 +42,15 @@ function currentWeather() {
     elementID: 'currentWeatherHiContainer',
   });
 
+  const currentWeatherHiLoContainer = elementBuilder.newElement({
+    element: 'div',
+    elementID: 'currentWeatherHiLoContainer',
+  });
+
   const currentWeatherHi = elementBuilder.newElement({
     element: 'div',
     elementID: 'currentWeatherHi',
+    text: '80°F',
   });
 
   const currentWeatherLowContainer = elementBuilder.newElement({
@@ -54,15 +61,17 @@ function currentWeather() {
   const currentWeatherLow = elementBuilder.newElement({
     element: 'div',
     elementID: 'currentWeatherLow',
+    text: '57°F',
   });
 
   currentWeatherContainer.appendChild(currentWeatherIconContainer);
   currentWeatherIconContainer.appendChild(currentWeatherIcon);
   currentWeatherContainer.appendChild(currentWeatherDescription);
   currentWeatherContainer.appendChild(currentWeatherTemp);
-  currentWeatherContainer.appendChild(currentWeatherHiContainer);
+  currentWeatherContainer.appendChild(currentWeatherHiLoContainer);
+  currentWeatherHiLoContainer.appendChild(currentWeatherHiContainer);
   currentWeatherHiContainer.appendChild(currentWeatherHi);
-  currentWeatherContainer.appendChild(currentWeatherLowContainer);
+  currentWeatherHiLoContainer.appendChild(currentWeatherLowContainer);
   currentWeatherLowContainer.appendChild(currentWeatherLow);
 
   return currentWeatherContainer;
@@ -78,7 +87,7 @@ function dailyForecast() {
     const dayContainer = elementBuilder.newElement({
       element: 'div',
       elementID: `day${i}Container`,
-      className: 'dailyForecastContainer',
+      className: 'dayContainer',
     });
 
     const dayIconContainer = elementBuilder.newElement({
@@ -94,6 +103,12 @@ function dailyForecast() {
       // src and alt
     });
 
+    const dayHiLoContainer = elementBuilder.newElement({
+      element: 'div',
+      elementID: `day${i}HiLoContainer`,
+      className: 'dayHiLoContainer',
+    });
+
     const dayHiContainer = elementBuilder.newElement({
       element: 'div',
       elementID: `day${i}HiContainer`,
@@ -104,6 +119,7 @@ function dailyForecast() {
       element: 'div',
       elementID: `day${i}Hi`,
       className: 'forecastHi',
+      text: '80°F',
     });
 
     const dayLowContainer = elementBuilder.newElement({
@@ -116,14 +132,16 @@ function dailyForecast() {
       element: 'div',
       elementID: `day${i}Low`,
       className: 'forecastLow',
+      text: '57°F',
     });
 
     dailyForecastContainer.appendChild(dayContainer);
     dayContainer.appendChild(dayIconContainer);
     dayIconContainer.appendChild(dayIcon);
-    dayContainer.appendChild(dayHiContainer);
+    dayContainer.appendChild(dayHiLoContainer);
+    dayHiLoContainer.appendChild(dayHiContainer);
     dayHiContainer.appendChild(dayHi);
-    dayContainer.appendChild(dayLowContainer);
+    dayHiLoContainer.appendChild(dayLowContainer);
     dayLowContainer.appendChild(dayLow);
   }
 
