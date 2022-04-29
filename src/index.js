@@ -1,6 +1,7 @@
 import './main.css';
 import * as elementBuilder from './modules/elementBuilder';
 import {
+  search,
   unitSelector,
   currentWeather,
   dailyForecast,
@@ -23,12 +24,19 @@ const main = elementBuilder.newElement({
   elementID: 'container',
 });
 
+const searchObj = search();
 const unitSelectorObj = unitSelector();
 const currentWeatherObj = currentWeather();
 const dailyForecastObj = dailyForecast();
 const weatherDetailsObj = weatherDetails();
 
-const model = { unitSelectorObj, currentWeatherObj, dailyForecastObj, weatherDetailsObj };
+const model = {
+  searchObj,
+  unitSelectorObj,
+  currentWeatherObj,
+  dailyForecastObj,
+  weatherDetailsObj,
+};
 
 elementBuilder.moduleRender(model, main);
 elementBuilder.sendToBody(main);

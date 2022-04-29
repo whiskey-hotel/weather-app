@@ -4,10 +4,21 @@ HTML {
 }
 
 #container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#unitSelectionContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  position: absolute;
+  border: solid white 1px;
+  top: 150px;
+  right: 120px;
 }
 
 #currentWeatherContainer,
@@ -20,6 +31,7 @@ HTML {
   width: 60%;
   box-shadow: rgba(106, 98, 90, 0.2) 0px 8px 24px;
   margin: 3em 0;
+  padding: 1em;
 }
 
 #weatherDetailsContainer {
@@ -59,6 +71,7 @@ HTML {
   box-shadow: rgba(106, 98, 90, 0.2) 0px 8px 24px;
   width: 10em;
   height: 10em;
+  margin: 0 0.5em;
 }
 
 .iconContainer {

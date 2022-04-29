@@ -1,10 +1,45 @@
 import * as elementBuilder from './elementBuilder';
 
+function search() {
+  const searchContainer = elementBuilder.newElement({
+    element: 'div',
+    elementID: 'searchContainer',
+  });
+
+  const searchBar = elementBuilder.newElement({
+    element: 'input',
+    elementID: 'searchBar',
+  });
+
+  searchBar.setAttribute('type', 'text');
+  searchBar.setAttribute('placeholder', 'Search City');
+
+  searchContainer.appendChild(searchBar);
+
+  return searchContainer;
+}
+
 function unitSelector() {
   const selectionContainer = elementBuilder.newElement({
     element: 'div',
     elementID: 'unitSelectionContainer',
   });
+
+  const imperialUnits = elementBuilder.newElement({
+    element: 'button',
+    elementID: 'imperialUnits',
+    text: 'Fahrenheit',
+  });
+
+  const metricUnits = elementBuilder.newElement({
+    element: 'button',
+    elementID: 'metricUnits',
+    text: 'Celsius',
+  });
+
+  selectionContainer.appendChild(imperialUnits);
+  selectionContainer.appendChild(metricUnits);
+
   return selectionContainer;
 }
 
@@ -236,4 +271,4 @@ function weatherDetails() {
 
   return weatherDetailsContainer;
 }
-export { unitSelector, currentWeather, dailyForecast, weatherDetails };
+export { search, unitSelector, currentWeather, dailyForecast, weatherDetails };
