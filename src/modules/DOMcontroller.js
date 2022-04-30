@@ -1,9 +1,23 @@
 import * as elementBuilder from './elementBuilder';
+import OpenWeather from './logic';
+import Validate from './validate';
 
 function search() {
+  let userData;
+
+  const errorBar = elementBuilder.newElement({
+    element: 'div',
+    elementID: 'errorBar',
+  });
+
   const searchContainer = elementBuilder.newElement({
     element: 'div',
     elementID: 'searchContainer',
+  });
+
+  const searchForm = elementBuilder.newElement({
+    element: 'form',
+    elementID: 'searchForm',
   });
 
   const searchBar = elementBuilder.newElement({
@@ -11,10 +25,29 @@ function search() {
     elementID: 'searchBar',
   });
 
+  searchForm.setAttribute('onSubmit', 'return false');
+  searchForm.setAttribute('noValidate', '');
   searchBar.setAttribute('type', 'text');
   searchBar.setAttribute('placeholder', 'Search City');
+  searchBar.setAttribute('required', '');
+  searchBar.setAttribute('autocomplete', 'off');
 
-  searchContainer.appendChild(searchBar);
+  searchForm.addEventListener('submit', (e) => {
+    const { city } = new Validate(searchForm);
+    if (Array.isArray(city)) {
+      e.preventDefault();
+      errorBar.textContent = city.join(', ');
+    } else {
+      userData = new OpenWeather(city);
+      searchForm.reset();
+      return userData;
+    }
+    return 1;
+  });
+
+  searchContainer.appendChild(errorBar);
+  searchContainer.appendChild(searchForm);
+  searchForm.appendChild(searchBar);
 
   return searchContainer;
 }
