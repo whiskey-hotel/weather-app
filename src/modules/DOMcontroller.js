@@ -43,11 +43,14 @@ class DOMObjects {
         e.preventDefault();
         errorBar.textContent = city.join(', ');
       } else {
+        // this.userData.city = city;
+        // this.userData.oneCallAPICall();
         DOMObjects.userData.city = city;
         DOMObjects.userData.oneCallAPICall();
         searchForm.reset();
       }
       return DOMObjects.userData;
+      //   return this.userData;
     });
 
     searchContainer.appendChild(errorBar);

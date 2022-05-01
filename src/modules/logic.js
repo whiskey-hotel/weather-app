@@ -46,7 +46,7 @@ class OpenWeather {
         { mode: 'cors' },
       );
       const dataResponse = await openWeatherResponse.json();
-    //   console.log(dataResponse);
+      //   console.log(dataResponse);
       this.temp = dataResponse.current.temp;
       this.feelsLike = dataResponse.current.feels_like;
       this.humidity = dataResponse.current.humidity;
