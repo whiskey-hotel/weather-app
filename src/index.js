@@ -1,12 +1,6 @@
 import './main.css';
 import * as elementBuilder from './modules/elementBuilder';
-import {
-  search,
-  unitSelector,
-  currentWeather,
-  dailyForecast,
-  weatherDetails,
-} from './modules/dOMcontroller';
+import DOMObjects from './modules/dOMcontroller';
 /* You should be able to:
   1: search for a specific location.
     Use HERE Geocoder Autocomplete API for predicting location query.
@@ -24,6 +18,7 @@ const main = elementBuilder.newElement({
   elementID: 'container',
 });
 
+const { search, unitSelector, currentWeather, dailyForecast, weatherDetails } = new DOMObjects();
 const searchObj = search();
 const unitSelectorObj = unitSelector();
 const currentWeatherObj = currentWeather();
