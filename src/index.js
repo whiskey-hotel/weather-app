@@ -18,10 +18,10 @@ const main = elementBuilder.newElement({
   elementID: 'container',
 });
 
-const { search, unitSelector, currentWeather, dailyForecast, weatherDetails } = new DOMObjects();
+const { search, unitSelector, currentWeather, dailyForecast, weatherDetails } = DOMObjects;
 const searchObj = search();
 const unitSelectorObj = unitSelector();
-const currentWeatherObj = currentWeather();
+const currentWeatherObj = currentWeather().currentWeatherContainer;
 const dailyForecastObj = dailyForecast();
 const weatherDetailsObj = weatherDetails();
 

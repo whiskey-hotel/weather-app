@@ -1,15 +1,19 @@
+/* eslint-disable class-methods-use-this */
 import * as elementBuilder from './elementBuilder';
-import OpenWeather from './logic';
+import OpenWeather from './openWeather';
 import Validate from './validate';
 
 class DOMObjects {
   static userData = new OpenWeather();
 
-  constructor() {
-    this.userData = new OpenWeather();
+  static update() {
+    document.getElementById('currentWeatherDescription').textContent =
+      DOMObjects.userData.description;
+    console.log('success');
+    console.log(DOMObjects.userData);
   }
 
-  search() {
+  static search() {
     const errorBar = elementBuilder.newElement({
       element: 'div',
       elementID: 'errorBar',
@@ -37,20 +41,17 @@ class DOMObjects {
     searchBar.setAttribute('required', '');
     searchBar.setAttribute('autocomplete', 'off');
 
-    searchForm.addEventListener('submit', (e) => {
+    searchForm.addEventListener('submit', async (e) => {
       const { city } = new Validate(searchForm);
       if (Array.isArray(city)) {
         e.preventDefault();
         errorBar.textContent = city.join(', ');
       } else {
-        // this.userData.city = city;
-        // this.userData.oneCallAPICall();
         DOMObjects.userData.city = city;
-        DOMObjects.userData.oneCallAPICall();
+        await DOMObjects.userData.oneCallAPICall();
+        DOMObjects.update();
         searchForm.reset();
       }
-      return DOMObjects.userData;
-      //   return this.userData;
     });
 
     searchContainer.appendChild(errorBar);
@@ -60,7 +61,7 @@ class DOMObjects {
     return searchContainer;
   }
 
-  unitSelector() {
+  static unitSelector() {
     const selectionContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'unitSelectionContainer',
@@ -84,7 +85,7 @@ class DOMObjects {
     return selectionContainer;
   }
 
-  currentWeather() {
+  static currentWeather() {
     const currentWeatherContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'currentWeatherContainer',
@@ -140,6 +141,10 @@ class DOMObjects {
       text: '57°F',
     });
 
+    currentWeatherDescription.addEventListener('change', () => {
+      currentWeatherDescription.textContent = DOMObjects.userData.description;
+    });
+
     currentWeatherContainer.appendChild(currentWeatherIconContainer);
     currentWeatherIconContainer.appendChild(currentWeatherIcon);
     currentWeatherContainer.appendChild(currentWeatherDescription);
@@ -150,10 +155,10 @@ class DOMObjects {
     currentWeatherHiLoContainer.appendChild(currentWeatherLowContainer);
     currentWeatherLowContainer.appendChild(currentWeatherLow);
 
-    return currentWeatherContainer;
+    return { currentWeatherContainer, currentWeatherDescription };
   }
 
-  dailyForecast() {
+  static dailyForecast() {
     const dailyForecastContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'dailyForecastContainer',
@@ -224,7 +229,7 @@ class DOMObjects {
     return dailyForecastContainer;
   }
 
-  weatherDetails() {
+  static weatherDetails() {
     const weatherDetailsContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'weatherDetailsContainer',
