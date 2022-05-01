@@ -14,7 +14,7 @@ class Validate {
   get city() {
     const errorArray = [];
     this.isMissing(errorArray);
-    if (errorArray.length < 0) {
+    if (errorArray.length < 1) {
       return this.searchBar.value;
     }
     return errorArray;

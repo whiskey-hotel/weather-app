@@ -3,8 +3,13 @@ class OpenWeather {
 
   static part = 'minutely,hourly,alerts';
 
-  constructor(city, units = 'imperial') {
+  static APIkey = 'c7062688ddc2df2a8c9585ac7f1742eb';
+
+  static country_code = 'ANSI';
+
+  constructor(city = 'default', units = 'imperial') {
     this.city = city;
+    this.state = '';
     this.units = units;
     this.temp = '';
     this.feelsLike = '';
@@ -16,23 +21,33 @@ class OpenWeather {
     this.windDirection = '';
     this.sunrise = '';
     this.sunset = '';
+    this.day0 = '';
+    this.day1 = '';
+    this.day2 = '';
+    this.day3 = '';
+    this.day4 = '';
+    this.day5 = '';
+    this.day6 = '';
   }
 
   async oneCallAPICall() {
     try {
       const geocodingRequest = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${this.city}&limit=${OpenWeather.limit}&appid=${APIkey}`,
+        `http://api.openweathermap.org/geo/1.0/direct?q=${this.city},${OpenWeather.country_code}&limit=${OpenWeather.limit}&appid=${OpenWeather.APIkey}`,
       );
       const geocodingResponse = await geocodingRequest.json();
-      const { lat } = geocodingResponse;
-      const { lon } = geocodingResponse;
+      if (geocodingResponse.length === 0) throw new Error('City not Found.');
+      const { lat } = await geocodingResponse[0];
+      const { lon } = await geocodingResponse[0];
+      this.city = await geocodingResponse[0].name;
+      this.state = await geocodingResponse[0].state;
       const openWeatherResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${this.units}&exclude=${OpenWeather.part}&appid=${APIkey}`,
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${this.units}&exclude=${OpenWeather.part}&appid=${OpenWeather.APIkey}`,
         { mode: 'cors' },
       );
       const dataResponse = await openWeatherResponse.json();
-      //   img.src = dataResponse.data.images.original.url;
-      this.temp = dataResponse.curremt.temp;
+    //   console.log(dataResponse);
+      this.temp = dataResponse.current.temp;
       this.feelsLike = dataResponse.current.feels_like;
       this.humidity = dataResponse.current.humidity;
       this.dewpoint = dataResponse.current.dew_point;
@@ -42,6 +57,8 @@ class OpenWeather {
       this.windDirection = dataResponse.current.wind_deg;
       this.sunrise = dataResponse.current.sunrise;
       this.sunset = dataResponse.current.sunset;
+      [, this.day0, this.day1, this.day2, this.day3, this.day4, this.day5, this.day6] =
+        dataResponse.daily;
     } catch (error) {
       console.log(error);
     }

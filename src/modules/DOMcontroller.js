@@ -3,8 +3,10 @@ import OpenWeather from './logic';
 import Validate from './validate';
 
 class DOMObjects {
+  static userData = new OpenWeather();
+
   constructor() {
-    this.userData = null;
+    this.userData = new OpenWeather();
   }
 
   search() {
@@ -31,7 +33,7 @@ class DOMObjects {
     searchForm.setAttribute('onSubmit', 'return false');
     searchForm.setAttribute('noValidate', '');
     searchBar.setAttribute('type', 'text');
-    searchBar.setAttribute('placeholder', 'Search City');
+    searchBar.setAttribute('placeholder', 'Search a US City');
     searchBar.setAttribute('required', '');
     searchBar.setAttribute('autocomplete', 'off');
 
@@ -41,11 +43,11 @@ class DOMObjects {
         e.preventDefault();
         errorBar.textContent = city.join(', ');
       } else {
-        this.userData = new OpenWeather(city);
+        DOMObjects.userData.city = city;
+        DOMObjects.userData.oneCallAPICall();
         searchForm.reset();
-        return this.userData;
       }
-      return 1;
+      return DOMObjects.userData;
     });
 
     searchContainer.appendChild(errorBar);
