@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/whiskey-hotel/weather-app#readme",
   "dependencies": {
+    "date-fns": "^2.28.0",
     "webpack": "^5.72.0"
   },
   "devDependencies": {

@@ -80,7 +80,12 @@ HTML {
   height: 3em;
 }
 
-.dayHiLoContainer {
+.forecastIcon {
+  height: 3em;
+}
+
+.dayHiLoContainer,
+.detailsContainer {
   display: flex;
 }
 
