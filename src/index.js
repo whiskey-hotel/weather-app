@@ -21,7 +21,7 @@ const main = elementBuilder.newElement({
 const { search, unitSelector, currentWeather, dailyForecast, weatherDetails } = DOMObjects;
 const searchObj = search();
 const unitSelectorObj = unitSelector();
-const currentWeatherObj = currentWeather().currentWeatherContainer;
+const currentWeatherObj = currentWeather();
 const dailyForecastObj = dailyForecast();
 const weatherDetailsObj = weatherDetails();
 

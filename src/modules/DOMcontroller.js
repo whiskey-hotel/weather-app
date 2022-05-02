@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable class-methods-use-this */
 import * as elementBuilder from './elementBuilder';
 import OpenWeather from './openWeather';
@@ -7,8 +8,17 @@ class DOMObjects {
   static userData = new OpenWeather();
 
   static update() {
+    document.getElementById(
+      'currentWeatherLocation',
+    ).textContent = `${DOMObjects.userData.city}, ${DOMObjects.userData.state}`;
+
+    document.getElementById(
+      'currentWeatherIcon',
+    ).src = `http://openweathermap.org/img/wn/${DOMObjects.userData.icon}@2x.png`;
+
     document.getElementById('currentWeatherDescription').textContent =
       DOMObjects.userData.description;
+
     console.log('success');
     console.log(DOMObjects.userData);
   }
@@ -91,6 +101,12 @@ class DOMObjects {
       elementID: 'currentWeatherContainer',
     });
 
+    const currentWeatherLocation = elementBuilder.newElement({
+      element: 'h2',
+      elementID: 'currentWeatherLocation',
+      text: 'Default Location',
+    });
+
     const currentWeatherIconContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'currentWeatherIconContainer',
@@ -99,7 +115,8 @@ class DOMObjects {
     const currentWeatherIcon = elementBuilder.newElement({
       element: 'img',
       elementID: 'currentWeatherIcon',
-      // src and alt
+      src: '',
+      alt: '',
     });
 
     const currentWeatherDescription = elementBuilder.newElement({
@@ -141,10 +158,7 @@ class DOMObjects {
       text: '57°F',
     });
 
-    currentWeatherDescription.addEventListener('change', () => {
-      currentWeatherDescription.textContent = DOMObjects.userData.description;
-    });
-
+    currentWeatherContainer.appendChild(currentWeatherLocation);
     currentWeatherContainer.appendChild(currentWeatherIconContainer);
     currentWeatherIconContainer.appendChild(currentWeatherIcon);
     currentWeatherContainer.appendChild(currentWeatherDescription);
@@ -155,7 +169,7 @@ class DOMObjects {
     currentWeatherHiLoContainer.appendChild(currentWeatherLowContainer);
     currentWeatherLowContainer.appendChild(currentWeatherLow);
 
-    return { currentWeatherContainer, currentWeatherDescription };
+    return currentWeatherContainer;
   }
 
   static dailyForecast() {
@@ -181,7 +195,8 @@ class DOMObjects {
         element: 'img',
         elementID: `day${i}Icon`,
         className: 'forecastIcon',
-        // src and alt
+        src: '',
+        alt: '',
       });
 
       const dayHiLoContainer = elementBuilder.newElement({

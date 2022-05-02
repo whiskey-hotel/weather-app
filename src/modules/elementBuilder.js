@@ -1,9 +1,20 @@
-function newElement({ element = '', className = '', elementID = '', text = '', href = '' }) {
+/* eslint-disable object-curly-newline */
+function newElement({
+  element = '',
+  className = '',
+  elementID = '',
+  text = '',
+  href = '',
+  src = '',
+  alt = '',
+}) {
   const DOMelement = document.createElement(element);
   if (className) DOMelement.classList = className;
   if (elementID) DOMelement.id = elementID;
   if (text) DOMelement.textContent = text;
   if (element === 'a' && href) DOMelement.href = href;
+  if (element === 'img' && src) DOMelement.src = src;
+  if (element === 'img' && alt) DOMelement.src = alt;
 
   return DOMelement;
 }
