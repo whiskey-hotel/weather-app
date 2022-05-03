@@ -4,36 +4,23 @@ import * as elementBuilder from './elementBuilder';
 import OpenWeather from './openWeather';
 import Validate from './validate';
 
-class DOMObjects {
-  static userData = new OpenWeather();
-
-  static update() {
-    document.getElementById(
-      'currentWeatherLocation',
-    ).textContent = `${DOMObjects.userData.city}, ${DOMObjects.userData.state}`;
+class DOMObjects extends OpenWeather {
+  update() {
+    document.getElementById('currentWeatherLocation').textContent = `${this.city}, ${this.state}`;
 
     document.getElementById(
       'currentWeatherIcon',
-    ).src = `http://openweathermap.org/img/wn/${DOMObjects.userData.icon}@2x.png`;
+    ).src = `http://openweathermap.org/img/wn/${this.icon}@2x.png`;
 
-    document.getElementById('currentWeatherDescription').textContent =
-      DOMObjects.userData.description;
+    document.getElementById('currentWeatherDescription').textContent = this.description;
 
-    document.getElementById('currentWeatherTemp').textContent = DOMObjects.userData.temp;
+    document.getElementById('currentWeatherTemp').textContent = this.temp;
 
-    document.getElementById('currentWeatherHi').textContent = DOMObjects.userData.hi;
+    document.getElementById('currentWeatherHi').textContent = this.hi;
 
-    document.getElementById('currentWeatherLow').textContent = DOMObjects.userData.low;
+    document.getElementById('currentWeatherLow').textContent = this.low;
 
-    const days = [
-      DOMObjects.userData.day1,
-      DOMObjects.userData.day2,
-      DOMObjects.userData.day3,
-      DOMObjects.userData.day4,
-      DOMObjects.userData.day5,
-      DOMObjects.userData.day6,
-      DOMObjects.userData.day7,
-    ];
+    const days = [this.day1, this.day2, this.day3, this.day4, this.day5, this.day6, this.day7];
 
     for (let i = 0; i < days.length; i += 1) {
       document.getElementById(
@@ -45,23 +32,22 @@ class DOMObjects {
       document.getElementById(`day${i + 1}Low`).textContent = days[i].temp.min;
     }
 
-    document.getElementById('detailTempsValue').textContent = DOMObjects.userData.temp;
-    document.getElementById('detailFeelsLikeValue').textContent = DOMObjects.userData.feelsLike;
-    document.getElementById('detailHumidityValue').textContent = DOMObjects.userData.humidity;
-    document.getElementById('detailDewPointValue').textContent = DOMObjects.userData.dewpoint;
-    document.getElementById('detailPressureValue').textContent = DOMObjects.userData.pressure;
-    document.getElementById('detailUVIndexValue').textContent = DOMObjects.userData.UVIndex;
-    document.getElementById('detailWindSpeedValue').textContent = DOMObjects.userData.windSpeed;
-    document.getElementById('detailWindDirectionValue').textContent =
-      DOMObjects.userData.windDirection;
-    document.getElementById('detailSunriseValue').textContent = DOMObjects.userData.sunrise;
-    document.getElementById('detailSunsetValue').textContent = DOMObjects.userData.sunset;
+    document.getElementById('detailTempsValue').textContent = this.temp;
+    document.getElementById('detailFeelsLikeValue').textContent = this.feelsLike;
+    document.getElementById('detailHumidityValue').textContent = this.humidity;
+    document.getElementById('detailDewPointValue').textContent = this.dewpoint;
+    document.getElementById('detailPressureValue').textContent = this.pressure;
+    document.getElementById('detailUVIndexValue').textContent = this.UVIndex;
+    document.getElementById('detailWindSpeedValue').textContent = this.windSpeed;
+    document.getElementById('detailWindDirectionValue').textContent = this.windDirection;
+    document.getElementById('detailSunriseValue').textContent = this.sunrise;
+    document.getElementById('detailSunsetValue').textContent = this.sunset;
 
     console.log('success');
-    console.log(DOMObjects.userData);
+    console.log(this);
   }
 
-  static search() {
+  search() {
     const errorBar = elementBuilder.newElement({
       element: 'div',
       elementID: 'errorBar',
@@ -89,19 +75,6 @@ class DOMObjects {
     searchBar.setAttribute('required', '');
     searchBar.setAttribute('autocomplete', 'off');
 
-    searchForm.addEventListener('submit', async (e) => {
-      const { city } = new Validate(searchForm);
-      if (Array.isArray(city)) {
-        e.preventDefault();
-        errorBar.textContent = city.join(', ');
-      } else {
-        DOMObjects.userData.city = city;
-        await DOMObjects.userData.oneCallAPICall();
-        DOMObjects.update();
-        searchForm.reset();
-      }
-    });
-
     searchContainer.appendChild(errorBar);
     searchContainer.appendChild(searchForm);
     searchForm.appendChild(searchBar);
@@ -109,7 +82,25 @@ class DOMObjects {
     return searchContainer;
   }
 
-  static unitSelector() {
+  async startSearch(formElement, e) {
+    const { city } = new Validate(formElement);
+    if (Array.isArray(city)) {
+      e.preventDefault();
+      document.getElementById('errorBar').textContent = city.join(', ');
+    } else {
+      try {
+        this.city = city;
+        await this.oneCallAPICall();
+        this.update();
+        formElement.reset();
+        document.getElementById('errorBar').textContent = '';
+      } catch (error) {
+        document.getElementById('errorBar').textContent = error.message;
+      }
+    }
+  }
+
+  unitSelector() {
     const selectionContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'unitSelectionContainer',
@@ -133,7 +124,7 @@ class DOMObjects {
     return selectionContainer;
   }
 
-  static currentWeather() {
+  currentWeather() {
     const currentWeatherContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'currentWeatherContainer',
@@ -210,7 +201,7 @@ class DOMObjects {
     return currentWeatherContainer;
   }
 
-  static dailyForecast() {
+  dailyForecast() {
     const dailyForecastContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'dailyForecastContainer',
@@ -289,7 +280,7 @@ class DOMObjects {
     return dailyForecastContainer;
   }
 
-  static weatherDetails() {
+  weatherDetails() {
     const weatherDetailsContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'weatherDetailsContainer',

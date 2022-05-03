@@ -42,45 +42,41 @@ class OpenWeather {
   }
 
   async oneCallAPICall() {
-    try {
-      const geocodingRequest = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${this.city},${OpenWeather.country_code}&limit=${OpenWeather.limit}&appid=${OpenWeather.APIkey}`,
-        { mode: 'cors' },
-      );
-      const geocodingResponse = await geocodingRequest.json();
-      if (geocodingResponse.length === 0) throw new Error('City not Found.');
-      const { lat } = geocodingResponse[0];
-      const { lon } = geocodingResponse[0];
-      this.city = geocodingResponse[0].name;
-      this.state = geocodingResponse[0].state;
-      const openWeatherResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${this.units}&exclude=${OpenWeather.part}&appid=${OpenWeather.APIkey}`,
-        { mode: 'cors' },
-      );
-      const dataResponse = await openWeatherResponse.json();
-      console.log(dataResponse);
-      this.temp = dataResponse.current.temp;
-      this.hi = dataResponse.daily[0].temp.max;
-      this.low = dataResponse.daily[0].temp.min;
-      this.feelsLike = dataResponse.current.feels_like;
-      this.humidity = dataResponse.current.humidity;
-      this.dewpoint = dataResponse.current.dew_point;
-      this.pressure = dataResponse.current.pressure;
-      this.UVIndex = dataResponse.current.uvi;
-      this.windSpeed = dataResponse.current.wind_speed;
-      this.windDirection = dataResponse.current.wind_deg;
-      this.sunrise = dataResponse.current.sunrise;
-      this.sunset = dataResponse.current.sunset;
-      this.description = dataResponse.current.weather[0].description;
-      this.icon = dataResponse.current.weather[0].icon;
-      // eslint-disable-next-line operator-linebreak
-      [this.day0, this.day1, this.day2, this.day3, this.day4, this.day5, this.day6, this.day7] =
-        dataResponse.daily;
-      this.cleanData();
-      return dataResponse;
-    } catch (error) {
-      console.log(error);
-    }
+    const geocodingRequest = await fetch(
+      `http://api.openweathermap.org/geo/1.0/direct?q=${this.city},${OpenWeather.country_code}&limit=${OpenWeather.limit}&appid=${OpenWeather.APIkey}`,
+      { mode: 'cors' },
+    );
+    const geocodingResponse = await geocodingRequest.json();
+    if (geocodingResponse.length === 0) throw new Error('City not Found.');
+    const { lat } = geocodingResponse[0];
+    const { lon } = geocodingResponse[0];
+    this.city = geocodingResponse[0].name;
+    this.state = geocodingResponse[0].state;
+    const openWeatherResponse = await fetch(
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${this.units}&exclude=${OpenWeather.part}&appid=${OpenWeather.APIkey}`,
+      { mode: 'cors' },
+    );
+    const dataResponse = await openWeatherResponse.json();
+    // console.log(dataResponse);
+    this.temp = dataResponse.current.temp;
+    this.hi = dataResponse.daily[0].temp.max;
+    this.low = dataResponse.daily[0].temp.min;
+    this.feelsLike = dataResponse.current.feels_like;
+    this.humidity = dataResponse.current.humidity;
+    this.dewpoint = dataResponse.current.dew_point;
+    this.pressure = dataResponse.current.pressure;
+    this.UVIndex = dataResponse.current.uvi;
+    this.windSpeed = dataResponse.current.wind_speed;
+    this.windDirection = dataResponse.current.wind_deg;
+    this.sunrise = dataResponse.current.sunrise;
+    this.sunset = dataResponse.current.sunset;
+    this.description = dataResponse.current.weather[0].description;
+    this.icon = dataResponse.current.weather[0].icon;
+    // eslint-disable-next-line operator-linebreak
+    [this.day0, this.day1, this.day2, this.day3, this.day4, this.day5, this.day6, this.day7] =
+      dataResponse.daily;
+    this.cleanData();
+    return dataResponse;
   }
 
   cleanData() {
@@ -103,7 +99,9 @@ class OpenWeather {
     }
 
     switch (true) {
-      case this.windDirection >= 348.75 && this.windDirection < 11.25:
+      // eslint-disable-next-line operator-linebreak
+      case this.windDirection >= 348.75 &&
+        (this.windDirection <= 360 || this.windDirection < 11.25):
         this.windDirection = 'N';
         break;
       case this.windDirection >= 11.25 && this.windDirection < 33.75:
@@ -152,7 +150,6 @@ class OpenWeather {
         this.windDirection = `${this.windDirection}`;
         break;
     }
-    // this.sunrise = new Date(this.sunrise).toLocaleString('en-US', {weekday: 'short'});
 
     this.sunrise = format(fromUnixTime(this.sunrise), 'h:mm a');
     this.sunset = format(fromUnixTime(this.sunset), 'h:mm a');

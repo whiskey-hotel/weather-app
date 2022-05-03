@@ -18,7 +18,9 @@ const main = elementBuilder.newElement({
   elementID: 'container',
 });
 
-const { search, unitSelector, currentWeather, dailyForecast, weatherDetails } = DOMObjects;
+const clientData = new DOMObjects();
+
+const { search, unitSelector, currentWeather, dailyForecast, weatherDetails } = clientData;
 const searchObj = search();
 const unitSelectorObj = unitSelector();
 const currentWeatherObj = currentWeather();
@@ -35,3 +37,9 @@ const model = {
 
 elementBuilder.moduleRender(model, main);
 elementBuilder.sendToBody(main);
+
+const searchForm = document.getElementById('searchForm');
+
+searchForm.addEventListener('submit', (e) => {
+  clientData.startSearch(searchForm, e);
+});
