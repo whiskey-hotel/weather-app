@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable prefer-destructuring */
 /* eslint-disable camelcase */
 /* eslint-disable consistent-return */
 import { fromUnixTime, format } from 'date-fns';
@@ -153,6 +155,61 @@ class OpenWeather {
 
     this.sunrise = format(fromUnixTime(this.sunrise), 'h:mm a');
     this.sunset = format(fromUnixTime(this.sunset), 'h:mm a');
+  }
+
+  toMetric(F = '', mph = '') {
+    const MPH_TO_MPS = 0.44704;
+    const c = ((F - 32) * 5) / 9;
+    const mps = mph * MPH_TO_MPS;
+    return { c, mps };
+  }
+
+  toImperial(C = '', mps = '') {
+    const MPS_TO_MPH = 2.237;
+    const f = C * 1.8 + 32;
+    const mph = mps * MPS_TO_MPH;
+    return { f, mph };
+  }
+
+  unitConversion() {
+    const days = [this.day1, this.day2, this.day3, this.day4, this.day5, this.day6, this.day7];
+
+    if (this.units === 'metric') {
+      for (let i = 0; i < days.length; i += 1) {
+        days[i].temp.max = this.toMetric(days[i].temp.max.split('°')[0]).c;
+        days[i].temp.min = this.toMetric(days[i].temp.min.split('°')[0]).c;
+      }
+      this.temp = this.toMetric(this.temp.split('°')[0]).c;
+      this.hi = this.toMetric(this.hi.split('°')[0]).c;
+      this.low = this.toMetric(this.low.split('°')[0]).c;
+      this.feelsLike = this.toMetric(this.feelsLike.split('°')[0]).c;
+      this.dewpoint = this.toMetric(this.dewpoint.split('°')[0]).c;
+      this.windSpeed = this.toMetric('', this.windSpeed.split(' ')[0]).mps;
+    } else if (this.units === 'imperial') {
+      for (let i = 0; i < days.length; i += 1) {
+        days[i].temp.max = this.toImperial(days[i].temp.max.split('°')[0]).f;
+        days[i].temp.min = this.toImperial(days[i].temp.min.split('°')[0]).f;
+      }
+      this.temp = this.toImperial(this.temp.split('°')[0]).f;
+      this.hi = this.toImperial(this.hi.split('°')[0]).f;
+      this.low = this.toImperial(this.low.split('°')[0]).f;
+      this.feelsLike = this.toImperial(this.feelsLike.split('°')[0]).f;
+      this.dewpoint = this.toImperial(this.dewpoint.split('°')[0]).f;
+      this.windSpeed = this.toImperial('', this.windSpeed.split(' ')[0]).mph;
+    }
+
+    // reformat data
+    this.temp = `${`${this.temp}`.split('.')[0]}°${this.unitSymbol}`;
+    this.hi = `${`${this.hi}`.split('.')[0]}°${this.unitSymbol}`;
+    this.low = `${`${this.low}`.split('.')[0]}°${this.unitSymbol}`;
+    this.feelsLike = `${`${this.feelsLike}`.split('.')[0]}°${this.unitSymbol}`;
+    this.dewpoint = `${`${this.dewpoint}`.split('.')[0]}°${this.unitSymbol}`;
+    this.windSpeed = `${this.windSpeed.toPrecision(4)} ${this.windSpeedUnits}`;
+
+    for (let i = 0; i < days.length; i += 1) {
+      days[i].temp.max = `${`${days[i].temp.max}`.split('.')[0]}°${this.unitSymbol}`;
+      days[i].temp.min = `${`${days[i].temp.min}`.split('.')[0]}°${this.unitSymbol}`;
+    }
   }
 }
 export default OpenWeather;

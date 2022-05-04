@@ -20,12 +20,12 @@ const main = elementBuilder.newElement({
 
 const clientData = new DOMObjects();
 
-const { search, unitSelector, currentWeather, dailyForecast, weatherDetails } = clientData;
-const searchObj = search();
-const unitSelectorObj = unitSelector();
-const currentWeatherObj = currentWeather();
-const dailyForecastObj = dailyForecast();
-const weatherDetailsObj = weatherDetails();
+// const { search, unitSelector, currentWeather, dailyForecast, weatherDetails } = clientData;
+const searchObj = clientData.search();
+const unitSelectorObj = clientData.unitSelector();
+const currentWeatherObj = clientData.currentWeather();
+const dailyForecastObj = clientData.dailyForecast();
+const weatherDetailsObj = clientData.weatherDetails();
 
 const model = {
   searchObj,

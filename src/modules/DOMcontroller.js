@@ -5,6 +5,24 @@ import OpenWeather from './openWeather';
 import Validate from './validate';
 
 class DOMObjects extends OpenWeather {
+  async startSearch(formElement, e) {
+    const { city } = new Validate(formElement);
+    if (Array.isArray(city)) {
+      e.preventDefault();
+      document.getElementById('errorBar').textContent = city.join(', ');
+    } else {
+      try {
+        this.city = city;
+        await this.oneCallAPICall();
+        this.update();
+        formElement.reset();
+        document.getElementById('errorBar').textContent = '';
+      } catch (error) {
+        document.getElementById('errorBar').textContent = error.message;
+      }
+    }
+  }
+
   update() {
     document.getElementById('currentWeatherLocation').textContent = `${this.city}, ${this.state}`;
 
@@ -82,24 +100,6 @@ class DOMObjects extends OpenWeather {
     return searchContainer;
   }
 
-  async startSearch(formElement, e) {
-    const { city } = new Validate(formElement);
-    if (Array.isArray(city)) {
-      e.preventDefault();
-      document.getElementById('errorBar').textContent = city.join(', ');
-    } else {
-      try {
-        this.city = city;
-        await this.oneCallAPICall();
-        this.update();
-        formElement.reset();
-        document.getElementById('errorBar').textContent = '';
-      } catch (error) {
-        document.getElementById('errorBar').textContent = error.message;
-      }
-    }
-  }
-
   unitSelector() {
     const selectionContainer = elementBuilder.newElement({
       element: 'div',
@@ -116,6 +116,24 @@ class DOMObjects extends OpenWeather {
       element: 'button',
       elementID: 'metricUnits',
       text: 'Celsius',
+    });
+
+    imperialUnits.addEventListener('click', () => {
+      if (this.units === 'imperial') return;
+      this.units = 'imperial';
+      this.unitSymbol = 'F';
+      this.windSpeedUnits = 'mph';
+      this.unitConversion();
+      this.update();
+    });
+
+    metricUnits.addEventListener('click', () => {
+      if (this.units === 'metric') return;
+      this.units = 'metric';
+      this.unitSymbol = 'C';
+      this.windSpeedUnits = 'm/s';
+      this.unitConversion();
+      this.update();
     });
 
     selectionContainer.appendChild(imperialUnits);
