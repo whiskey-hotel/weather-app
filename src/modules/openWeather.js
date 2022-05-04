@@ -9,7 +9,7 @@ class OpenWeather {
 
   static part = 'minutely,hourly,alerts';
 
-  static APIkey = 'c7062688ddc2df2a8c9585ac7f1742eb';
+  static APIkey = process.env.OPEN_WEATHER_KEY;
 
   static country_code = 'ANSI';
 
