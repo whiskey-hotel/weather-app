@@ -16,6 +16,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Weather App',
       template: './src/template.html',
+      favicon: './src/images/Papirus-Team-Papirus-Apps-Weather.svg',
     }),
   ],
   output: {
