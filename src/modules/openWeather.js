@@ -45,7 +45,8 @@ class OpenWeather {
 
   async oneCallAPICall() {
     const geocodingRequest = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${this.city},${OpenWeather.country_code}&limit=${OpenWeather.limit}&appid=${OpenWeather.APIkey}`,
+      `https://api.openweathermap.org/geo/1.0/direct?q=${this.city},${OpenWeather.country_code}&limit=${OpenWeather.limit}&appid=${OpenWeather.APIkey}`,
+      { mode: 'cors' },
     );
     const geocodingResponse = await geocodingRequest.json();
     if (geocodingResponse.length === 0) throw new Error('City not Found.');
@@ -55,6 +56,7 @@ class OpenWeather {
     this.state = geocodingResponse[0].state;
     const openWeatherResponse = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${this.units}&exclude=${OpenWeather.part}&appid=${OpenWeather.APIkey}`,
+      { mode: 'cors' },
     );
     const dataResponse = await openWeatherResponse.json();
     this.temp = dataResponse.current.temp;
