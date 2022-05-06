@@ -19,6 +19,7 @@ html {
 
 #searchForm {
   border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+  margin-top: 1em;
 }
 #searchBar {
   font-size: 1.25em;
@@ -50,6 +51,7 @@ html {
 }
 
 #currentWeatherContainer,
+#currentWeatherContainer,
 #dailyForecastContainer {
   display: flex;
   justify-content: center;
@@ -62,6 +64,7 @@ html {
   box-shadow: rgba(106, 98, 90, 0.2) 0px 8px 24px;
   margin: 3em 0;
   padding: 1em;
+  border-radius: 20px;
 }
 
 #currentWeatherLocation,
@@ -75,15 +78,12 @@ html {
   margin-top: 3em;
   padding-left: 3em;
   padding-right: 3em;
+  padding-bottom: 1em;
   background-color: rgba(0, 0, 0, 0.15);
-}
-
-.details {
-  margin: 0.1em;
+  border-radius: 5%;
 }
 
 #currentWeatherContainer {
-  display: flex;
   flex-direction: column;
   align-items: center;
 }
@@ -120,6 +120,12 @@ html {
   width: 10em;
   height: 10em;
   margin: 0.25em 0.5em;
+  border-radius: 10%;
+}
+
+.details {
+  margin: 0.1em;
+  border-radius: 10%;
 }
 
 .iconContainer {
@@ -154,7 +160,7 @@ html {
     position: static;
     margin-top: 1em;
   }
-  #currentWeatherContainer{
+  #currentWeatherContainer {
     margin-top: 1em;
   }
 }

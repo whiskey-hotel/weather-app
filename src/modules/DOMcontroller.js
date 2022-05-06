@@ -87,6 +87,7 @@ class DOMObjects extends OpenWeather {
     searchForm.setAttribute('noValidate', '');
     searchBar.setAttribute('type', 'text');
     searchBar.setAttribute('placeholder', 'Search a US City');
+    searchBar.setAttribute('value', 'Austin');
     searchBar.setAttribute('required', '');
     searchBar.setAttribute('autocomplete', 'off');
 
