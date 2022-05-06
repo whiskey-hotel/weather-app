@@ -32,11 +32,11 @@ class DOMObjects extends OpenWeather {
 
     document.getElementById('currentWeatherDescription').textContent = this.description;
 
-    document.getElementById('currentWeatherTemp').textContent = this.temp;
+    document.getElementById('currentWeatherTemp').textContent = this.displayTemp;
 
-    document.getElementById('currentWeatherHi').textContent = this.hi;
+    document.getElementById('currentWeatherHi').textContent = this.displayHi;
 
-    document.getElementById('currentWeatherLow').textContent = this.low;
+    document.getElementById('currentWeatherLow').textContent = this.displayLow;
 
     const days = [this.day1, this.day2, this.day3, this.day4, this.day5, this.day6, this.day7];
 
@@ -46,14 +46,14 @@ class DOMObjects extends OpenWeather {
       ).src = `http://openweathermap.org/img/wn/${days[i].weather[0].icon}@2x.png`;
 
       document.getElementById(`day${i + 1}OfTheWeek`).textContent = days[i].dt;
-      document.getElementById(`day${i + 1}Hi`).textContent = days[i].temp.max;
-      document.getElementById(`day${i + 1}Low`).textContent = days[i].temp.min;
+      document.getElementById(`day${i + 1}Hi`).textContent = `${`${days[i].temp.max}`.split('.')[0]}°${this.unitSymbol}`;
+      document.getElementById(`day${i + 1}Low`).textContent = `${`${days[i].temp.min}`.split('.')[0]}°${this.unitSymbol}`;
     }
 
-    document.getElementById('detailTempsValue').textContent = this.temp;
-    document.getElementById('detailFeelsLikeValue').textContent = this.feelsLike;
+    document.getElementById('detailTempsValue').textContent = this.displayTemp;
+    document.getElementById('detailFeelsLikeValue').textContent = this.displayFeelsLike;
     document.getElementById('detailHumidityValue').textContent = this.humidity;
-    document.getElementById('detailDewPointValue').textContent = this.dewpoint;
+    document.getElementById('detailDewPointValue').textContent = this.displayDewpoint;
     document.getElementById('detailPressureValue').textContent = this.pressure;
     document.getElementById('detailUVIndexValue').textContent = this.UVIndex;
     document.getElementById('detailWindSpeedValue').textContent = this.windSpeed;
