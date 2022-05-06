@@ -60,9 +60,6 @@ class DOMObjects extends OpenWeather {
     document.getElementById('detailWindDirectionValue').textContent = this.windDirection;
     document.getElementById('detailSunriseValue').textContent = this.sunrise;
     document.getElementById('detailSunsetValue').textContent = this.sunset;
-
-    console.log('success');
-    console.log(this);
   }
 
   search() {
@@ -109,17 +106,21 @@ class DOMObjects extends OpenWeather {
     const imperialUnits = elementBuilder.newElement({
       element: 'button',
       elementID: 'imperialUnits',
+      className: 'btn',
       text: 'Fahrenheit',
     });
 
     const metricUnits = elementBuilder.newElement({
       element: 'button',
       elementID: 'metricUnits',
+      className: 'btn',
       text: 'Celsius',
     });
 
     imperialUnits.addEventListener('click', () => {
       if (this.units === 'imperial') return;
+      imperialUnits.style.border = '2px solid rgba(241, 90, 34, 1)';
+      metricUnits.style.border = '2px solid rgba(0, 0, 0, 0.15)';
       this.units = 'imperial';
       this.unitSymbol = 'F';
       this.windSpeedUnits = 'mph';
@@ -129,12 +130,16 @@ class DOMObjects extends OpenWeather {
 
     metricUnits.addEventListener('click', () => {
       if (this.units === 'metric') return;
+      metricUnits.style.border = '2px solid rgba(241, 90, 34, 1)';
+      imperialUnits.style.border = '2px solid rgba(0, 0, 0, 0.15)';
       this.units = 'metric';
       this.unitSymbol = 'C';
       this.windSpeedUnits = 'm/s';
       this.unitConversion();
       this.update();
     });
+
+    imperialUnits.style.border = '2px solid rgba(241, 90, 34, 1)';
 
     selectionContainer.appendChild(imperialUnits);
     selectionContainer.appendChild(metricUnits);
@@ -169,7 +174,6 @@ class DOMObjects extends OpenWeather {
     const currentWeatherDescription = elementBuilder.newElement({
       element: 'div',
       elementID: 'currentWeatherDescription',
-      text: 'Occaecat tempor proident dolore',
     });
 
     const currentWeatherTemp = elementBuilder.newElement({
@@ -181,6 +185,7 @@ class DOMObjects extends OpenWeather {
     const currentWeatherHiContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'currentWeatherHiContainer',
+      text: 'Hi:',
     });
 
     const currentWeatherHiLoContainer = elementBuilder.newElement({
@@ -191,18 +196,17 @@ class DOMObjects extends OpenWeather {
     const currentWeatherHi = elementBuilder.newElement({
       element: 'div',
       elementID: 'currentWeatherHi',
-      text: '80°F',
     });
 
     const currentWeatherLowContainer = elementBuilder.newElement({
       element: 'div',
       elementID: 'currentWeatherLowContainer',
+      text: 'Low:',
     });
 
     const currentWeatherLow = elementBuilder.newElement({
       element: 'div',
       elementID: 'currentWeatherLow',
-      text: '57°F',
     });
 
     currentWeatherContainer.appendChild(currentWeatherLocation);
@@ -262,26 +266,26 @@ class DOMObjects extends OpenWeather {
         element: 'div',
         elementID: `day${i}HiContainer`,
         className: 'forecastHiContainer',
+        text: 'Hi:',
       });
 
       const dayHi = elementBuilder.newElement({
         element: 'div',
         elementID: `day${i}Hi`,
         className: 'forecastHi',
-        text: '80°F',
       });
 
       const dayLowContainer = elementBuilder.newElement({
         element: 'div',
         elementID: `day${i}LowContainer`,
         className: 'forecastLowContainer',
+        text: 'Low:',
       });
 
       const dayLow = elementBuilder.newElement({
         element: 'div',
         elementID: `day${i}Low`,
         className: 'forecastLow',
-        text: '57°F',
       });
 
       dailyForecastContainer.appendChild(dayContainer);
@@ -305,7 +309,7 @@ class DOMObjects extends OpenWeather {
     });
 
     const title = elementBuilder.newElement({
-      element: 'h4',
+      element: 'h3',
       elementID: 'title',
       text: 'Weather Details',
     });

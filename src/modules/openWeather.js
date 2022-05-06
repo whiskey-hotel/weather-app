@@ -59,7 +59,6 @@ class OpenWeather {
       { mode: 'cors' },
     );
     const dataResponse = await openWeatherResponse.json();
-    // console.log(dataResponse);
     this.temp = dataResponse.current.temp;
     this.hi = dataResponse.daily[0].temp.max;
     this.low = dataResponse.daily[0].temp.min;
