@@ -99,63 +99,29 @@ class OpenWeather {
 
     const days = [this.day1, this.day2, this.day3, this.day4, this.day5, this.day6, this.day7];
     for (let i = 0; i < days.length; i += 1) {
-      // days[i].temp.max = `${`${days[i].temp.max}`.split('.')[0]}°${this.unitSymbol}`;
-      // days[i].temp.min = `${`${days[i].temp.min}`.split('.')[0]}°${this.unitSymbol}`;
       days[i].dt = format(fromUnixTime(days[i].dt), 'E');
     }
 
-    switch (true) {
-      // eslint-disable-next-line operator-linebreak
-      case this.windDirection >= 348.75 &&
-        (this.windDirection <= 360 || this.windDirection < 11.25):
-        this.windDirection = 'N';
-        break;
-      case this.windDirection >= 11.25 && this.windDirection < 33.75:
-        this.windDirection = 'NNE';
-        break;
-      case this.windDirection >= 33.75 && this.windDirection < 56.25:
-        this.windDirection = 'ENE';
-        break;
-      case this.windDirection >= 56.25 && this.windDirection < 78.75:
-        this.windDirection = 'E';
-        break;
-      case this.windDirection >= 101.25 && this.windDirection < 123.75:
-        this.windDirection = 'ESE';
-        break;
-      case this.windDirection >= 123.75 && this.windDirection < 146.25:
-        this.windDirection = 'SE';
-        break;
-      case this.windDirection >= 146.25 && this.windDirection < 168.75:
-        this.windDirection = 'SSE';
-        break;
-      case this.windDirection >= 168.75 && this.windDirection < 191.25:
-        this.windDirection = 'S';
-        break;
-      case this.windDirection >= 191.25 && this.windDirection < 213.75:
-        this.windDirection = 'SSW';
-        break;
-      case this.windDirection >= 213.75 && this.windDirection < 236.25:
-        this.windDirection = 'SW';
-        break;
-      case this.windDirection >= 236.75 && this.windDirection < 258.75:
-        this.windDirection = 'WSW';
-        break;
-      case this.windDirection >= 258.75 && this.windDirection < 281.25:
-        this.windDirection = 'W';
-        break;
-      case this.windDirection >= 281.25 && this.windDirection < 303.75:
-        this.windDirection = 'WNW';
-        break;
-      case this.windDirection >= 303.75 && this.windDirection < 326.25:
-        this.windDirection = 'NW';
-        break;
-      case this.windDirection >= 326.25 && this.windDirection < 348.75:
-        this.windDirection = 'NNW';
-        break;
-      default:
-        this.windDirection = `${this.windDirection}`;
-        break;
-    }
+    const val = Math.round(this.windDirection / 22.5 + 0.5);
+    const arr = [
+      'N',
+      'NNE',
+      'NE',
+      'ENE',
+      'E',
+      'ESE',
+      'SE',
+      'SSE',
+      'S',
+      'SSW',
+      'SW',
+      'WSW',
+      'W',
+      'WNW',
+      'NW',
+      'NNW',
+    ];
+    this.windDirection = arr[val % 16];
 
     this.sunrise = format(fromUnixTime(this.sunrise), 'h:mm a');
     this.sunset = format(fromUnixTime(this.sunset), 'h:mm a');
