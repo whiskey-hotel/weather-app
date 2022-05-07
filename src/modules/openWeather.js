@@ -102,7 +102,7 @@ class OpenWeather {
       days[i].dt = format(fromUnixTime(days[i].dt), 'E');
     }
 
-    const val = Math.round(this.windDirection / 22.5 + 0.5);
+    const val = Math.round(this.windDirection / 22.5);
     const arr = [
       'N',
       'NNE',
